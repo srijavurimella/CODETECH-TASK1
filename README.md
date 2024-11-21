@@ -1,5 +1,4 @@
 **Name:** VURIMELLA SRIJA
-
 **Company:** CODTECH IT SOLUTIONS  
 **ID:** CT6WDS2212  
 **Domain:** Artificial Intelligence  
