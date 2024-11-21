@@ -1,9 +1,9 @@
-**Name:** VURIMELLA SRIJA
-**Company:** CODTECH IT SOLUTIONS   
+**Name:** VURIMELLA SRIJA  
+**Company:** CODTECH IT SOLUTIONS     
 **ID:** CT6WDS2212  
-**Domain:** Artificial Intelligence  
-**Duration:** October 2024 to December 2024  
-**Mentor:** 
+**Domain:** Artificial Intelligence    
+**Duration:** October 2024 to December 2024    
+**Mentor:**  Muzammil Ahmed  
 
 ## Overview of the Project
 
@@ -15,8 +15,6 @@ Fig-2
 Fig-3  
 ![Screenshot 2024-11-19 180915](https://github.com/user-attachments/assets/d43d3b5a-2a72-48b4-93d7-1e4f8311aac3)  
 Fig-4  
-![Screenshot 2024-11-19 180933](https://github.com/user-attachments/assets/7307db94-d21b-4cc2-88ed-6b1a2cf37ae7)   
-Fig-5  
 ![Screenshot 2024-11-19 181003](https://github.com/user-attachments/assets/bcc68ce4-d804-4835-b2a0-6b1a535a8e78)
 -93b1-4985daa0e03b)  
 
