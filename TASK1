@@ -1,60 +1,60 @@
 import pandas as pd
 import numpy as np
 from sklearn import datasets
-from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import StandardScaler
-from sklearn.linear_model import LogisticRegression
-from sklearn.svm import SVC
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, confusion_matrix, classification_report
 
+# Load Iris Dataset
 iris = datasets.load_iris()
-df = pd.DataFrame(data=iris.data, columns=iris.feature_names)
-df['target'] = iris.target
+df = pd.DataFrame(iris.data, columns=iris.feature_names)
+df['species'] = iris.target
 
-print("Dataset Sample:\n", df.head())
-X = df.iloc[:, :-1].values  
-y = df['target'].values     
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
+# Display the original dataset
+print("Original Dataset:")
+print(df.head())
+# Introduce some NaN values for demonstration
+df.loc[5:10, 'sepal length (cm)'] = np.nan  # Introducing missing values
 
-print(f"Training set shape: {X_train.shape}")
-print(f"Testing set shape: {X_test.shape}")
+# Fill missing values with the mean of the column
+df['sepal length (cm)'] = df['sepal length (cm)'].fillna(df['sepal length (cm)'].mean())
+
+# Display after handling missing values
+print("\nAfter Handling Missing Values:")
+print(df.head(15))
+from sklearn.preprocessing import LabelEncoder
+
+# Encode categorical 'species' column
+label_encoder = LabelEncoder()
+df['species'] = label_encoder.fit_transform(df['species'])
+
+# Display after encoding
+print("\nAfter Encoding 'species' Column:")
+print(df.head())
+from sklearn.preprocessing import StandardScaler
+
+# Standardize the features (excluding the target 'species')
 scaler = StandardScaler()
-X_train = scaler.fit_transform(X_train)
-X_test = scaler.transform(X_test)
+scaled_features = scaler.fit_transform(df.drop(columns='species'))
 
-print("Scaled Training Data Sample:\n", X_train[:5])
-print("Scaled Testing Data Sample:\n", X_test[:5])
-log_reg = LogisticRegression(random_state=42)
-svm = SVC(random_state=42)
-rf = RandomForestClassifier(random_state=42)
+# Create a new DataFrame with scaled features
+scaled_df = pd.DataFrame(scaled_features, columns=df.columns[:-1])
 
-log_reg.fit(X_train, y_train)
-svm.fit(X_train, y_train)
-rf.fit(X_train, y_train)
+# Add the target variable (species) back to the scaled DataFrame
+scaled_df['species'] = df['species']
 
-metrics = {'Model': [], 'Accuracy': [], 'Precision': [], 'Recall': [], 'F1 Score': []}
+# Display after scaling
+print("\nAfter Feature Scaling:")
+print(scaled_df.head())
+from sklearn.model_selection import train_test_split
 
-def evaluate_model(model, X_test, y_test, model_name):
-    y_pred = model.predict(X_test)
-    acc = accuracy_score(y_test, y_pred)
-    prec = precision_score(y_test, y_pred, average='weighted')
-    rec = recall_score(y_test, y_pred, average='weighted')
-    f1 = f1_score(y_test, y_pred, average='weighted')
+# Split the data into features (X) and target (y)
+X = scaled_df.drop(columns='species')  # Features
+y = scaled_df['species']  # Target
 
-    metrics['Model'].append(model_name)
-    metrics['Accuracy'].append(acc)
-    metrics['Precision'].append(prec)
-    metrics['Recall'].append(rec)
-    metrics['F1 Score'].append(f1)
+# Split the data into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
-    
-    print(f"\n{model_name} Confusion Matrix:\n", confusion_matrix(y_test, y_pred))
-    print(f"{model_name} Classification Report:\n", classification_report(y_test, y_pred))
+# Display the train-test split
+print("\nTraining Features (X_train):")
+print(X_train.head())
 
-
-evaluate_model(log_reg, X_test, y_test, "Logistic Regression")
-evaluate_model(svm, X_test, y_test, "SVM")
-evaluate_model(rf, X_test, y_test, "Random Forest")
-metrics_df = pd.DataFrame(metrics)
-print("\nModel Comparison Table:\n", metrics_df)
+print("\nTesting Features (X_test):")
+print(X_test.head())
